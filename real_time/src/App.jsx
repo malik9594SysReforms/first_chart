@@ -1,10 +1,18 @@
 import React from 'react'
+import Login from './pages/login/Login'
+import { Route, Routes } from 'react-router-dom'
+import Chat from './pages/chat/Chat'
+import ProfileUpdate from './pages/profileUpdate/ProfileUpdate'
 
 const App = () => {
   return (
-    <div>
-      
-    </div>
+    <>
+      <Routes>
+      <Route path='/' element={<Login/>}/>  
+      <Route path='/chat' element={<Chat/>}/>
+      <Route path="/profile-update" element={<ProfileUpdate/>}/>
+      </Routes>
+    </>
   )
 }
 
