@@ -64,5 +64,6 @@ border: none;
 font-size: 12px;
 font-weight: 300;
 padding: 10px 65px;
+/* border-radius: 20px; */
 cursor: pointer;
 }

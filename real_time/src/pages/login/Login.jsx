@@ -1,8 +1,12 @@
 import React, { useState } from 'react'
 import './Login.css';
 import assets from '../../assets/assets';
+import {signup} from '../../config/Firebase';
 const Login = () => {
-  const [currentState, setCurrentState] = useState("Sign up")
+  const [currentState, setCurrentState] = useState("Sign up");
+  const [userName, setUserName] = useState("")
+  const[email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   return (
     <div className="login">
       <img src={assets.logo_big} alt='' className="logo"/>
