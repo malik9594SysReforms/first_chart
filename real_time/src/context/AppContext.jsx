@@ -1,7 +1,7 @@
-import { createContext, useState } from "react";
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../config/Firebase';
-import {useNavigate} from 'react-router-dom'
+import { createContext, useEffect, useState } from "react";
+import { doc, getDoc, onSnapshot, updateDoc } from 'firebase/firestore';
+import { auth, db } from '../config/Firebase';
+import { useNavigate } from 'react-router-dom'
 export const AppContext = createContext();
 
 const AppContextProvider = (props) => {
@@ -17,14 +17,45 @@ const AppContextProvider = (props) => {
             if (userData.avatar && userData.name) {
                 navigate('/chat');
             }
-            else{
+            else {
                 navigate('/profile-update');
             }
+            await updateDoc(userRef, {
+                lastSeen: Date.now()
+            })
+            setInterval(async () => {
+                if (auth.chatUser) {
+                    await updateDoc(userRef, {
+                        lastSeen: Date.now()
+                    })
+                }
+
+            }, 60000)
         }
         catch (error) {
 
         }
     }
+    useEffect(() => {
+        if (userData) {
+            const chatRef = doc(db, 'chats', userData.id);
+            const unSub = onSnapshot(chatRef, async (res) => {
+                const chatItems = res.data().chatsData;
+                const tempData = [];
+                for (const item of chatItems) {
+                    const userRef = doc(db, 'users', item.rId);
+                    const userSnap = await getDoc(userRef);
+                    const userData = userSnap.data();
+                    tempData.push({...item, userData})
+                }
+                setChatData(tempData.sort((a,b)=>
+                b.updatedAt - a.updatedAt))
+            })
+            return()=>{
+                unSub();
+            }
+        }
+    }, [userData])
     const value = {
         userData, setUserData,
         chatData, setChatData,

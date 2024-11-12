@@ -1,9 +1,10 @@
 import React from 'react'
 import './LeftSideBar.css'
 import assets from '../../assets/assets'
+import { useNavigate } from 'react-router-dom'
 
 const LeftSideBar = () => {
-
+    const navigate = useNavigate();
     return (
 
         <div className='ls'>
@@ -13,10 +14,10 @@ const LeftSideBar = () => {
                     <div className='menu'>
                         <img src={assets.menu_icon} alt='' />
                         <div className='sub-menu'>
-                            <p>
+                            <p onClick={()=>{navigate('/profile-update')}}>
                                 Edit Profile
                             </p>
-                            <hr/>
+                            <hr />
                             <p>Logout</p>
                         </div>
                     </div>
@@ -27,15 +28,15 @@ const LeftSideBar = () => {
                 </div>
             </div>
             <div className="ls-list">
-               {Array(12).fill("").map((item,index)=>(
-                 <div key={index} className="friends">
-                 <img src={assets.profile_img} alt='image not exist' />
-                 <div>
-                     <p>Hassan Raza </p>
-                     <span>Hello, How are you</span>
-                 </div>
-             </div>
-               ))}
+                {Array(12).fill("").map((item, index) => (
+                    <div key={index} className="friends">
+                        <img src={assets.profile_img} alt='image not exist' />
+                        <div>
+                            <p>Hassan Raza </p>
+                            <span>Hello, How are you</span>
+                        </div>
+                    </div>
+                ))}
             </div>
         </div>
     )
